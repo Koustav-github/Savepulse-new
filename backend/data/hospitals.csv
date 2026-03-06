@@ -1,0 +1,51 @@
+hospital_id,hospital_name,latitude,longitude,trauma_center,cardiac_center,icu_beds_available,general_beds_available,oxygen_beds_available,total_beds,current_occupancy_rate,hospital_rating
+1,Harmony Medical Institute,22.507391,88.369767,False,False,3,13,4,65,0.74,3.5
+2,Mediview Medical Center,22.462541,88.273882,False,False,2,12,7,84,0.77,4.8
+3,Silver Oak Multispeciality Hospital,22.557983,88.269544,True,True,5,15,12,138,0.71,4.1
+4,GreenLife Medical Institute,22.454174,88.39581,True,True,3,9,3,51,0.8,4.0
+5,LifeLine Healthcare,22.481102,88.352776,True,False,2,10,3,53,0.78,3.6
+6,LifeLine Hospital,22.468163,88.258046,False,False,2,6,7,95,0.68,4.6
+7,Prime Medical Institute,22.467998,88.301663,False,False,3,15,4,81,0.88,3.6
+8,GreenLife Hospital,22.640346,88.438861,False,False,2,19,7,123,0.91,4.0
+9,GreenLife Healthcare,22.59247,88.364244,True,False,5,20,5,120,0.66,4.0
+10,GreenLife Healthcare,22.568111,88.31258,False,False,3,20,10,148,0.77,4.8
+11,Mediview Healthcare,22.626882,88.361227,True,False,1,25,4,136,0.74,3.5
+12,Global Hospital,22.576805,88.447874,False,True,1,9,5,47,0.72,3.9
+13,Apollo Care Medical Institute,22.540075,88.281558,False,False,6,27,8,149,0.94,3.8
+14,LifeLine Multispeciality Hospital,22.643081,88.333268,False,True,2,7,5,70,0.77,4.2
+15,MetroCare Hospital,22.580944,88.338709,False,False,8,22,4,190,0.74,3.7
+16,Apollo Care Healthcare,22.595033,88.374895,True,False,3,6,5,78,0.85,4.1
+17,Silver Oak Multispeciality Hospital,22.517191,88.281353,True,True,3,8,7,51,0.85,4.4
+18,LifeLine Hospital,22.571181,88.268494,False,False,3,8,5,99,0.68,4.2
+19,MetroCare Multispeciality Hospital,22.564719,88.406099,True,True,1,5,8,53,0.76,4.0
+20,Zenith Hospital,22.506182,88.430539,True,True,1,13,4,65,0.74,4.3
+21,Global Medical Institute,22.626355,88.311231,False,False,3,19,13,143,0.73,3.8
+22,CityCare Hospital,22.46437,88.293695,False,True,6,26,6,146,0.84,3.8
+23,Prime Medical Institute,22.613771,88.310302,False,False,2,28,15,182,0.74,4.1
+24,LifeLine Healthcare,22.513467,88.251189,False,True,2,14,3,101,0.82,4.7
+25,Zenith Multispeciality Hospital,22.538917,88.43145,True,True,5,20,4,105,0.74,4.4
+26,Harmony Multispeciality Hospital,22.632255,88.352305,False,False,3,8,5,93,0.86,3.9
+27,Mediview Medical Institute,22.619756,88.440695,False,False,1,9,8,47,0.81,3.7
+28,Mediview Healthcare,22.556498,88.377859,False,False,1,5,3,42,0.67,3.9
+29,Hopewell Healthcare,22.458801,88.375596,True,True,2,16,4,102,0.77,4.8
+30,Global Medical Institute,22.589745,88.358836,False,False,3,13,21,212,0.7,4.4
+31,GreenLife Hospital,22.495341,88.317197,True,True,3,10,3,69,0.81,4.8
+32,VitalCare Medical Center,22.493632,88.389041,False,False,3,10,3,50,0.78,4.1
+33,Global Medical Center,22.471735,88.305846,False,True,2,12,8,109,0.83,4.2
+34,VitalCare Multispeciality Hospital,22.479322,88.429503,False,True,1,25,11,136,0.95,4.2
+35,VitalCare Hospital,22.492517,88.292645,False,False,2,7,9,123,0.75,4.1
+36,GreenLife Medical Institute,22.543313,88.267865,False,True,3,22,10,141,0.83,4.0
+37,LifeLine Medical Center,22.483164,88.285388,False,True,2,10,6,57,0.72,4.0
+38,Mediview Hospital,22.494485,88.397347,True,False,10,26,19,278,0.92,3.5
+39,Hopewell Hospital,22.56218,88.329649,True,True,3,10,7,51,0.71,3.7
+40,Harmony Healthcare,22.487313,88.397422,False,False,1,14,4,71,0.92,4.0
+41,Harmony Healthcare,22.538641,88.439193,False,False,5,32,14,169,0.9,4.4
+42,CityCare Hospital,22.530377,88.252179,False,True,3,5,11,141,0.92,3.8
+43,Global Medical Center,22.512604,88.398902,False,True,2,6,4,65,0.81,3.8
+44,Global Medical Center,22.598118,88.27168,False,False,2,18,9,126,0.67,3.6
+45,LifeLine Multispeciality Hospital,22.641171,88.38769,False,True,2,9,6,42,0.72,3.9
+46,Hopewell Hospital,22.627957,88.372047,True,False,1,9,5,86,0.75,3.6
+47,VitalCare Medical Center,22.646517,88.270528,False,True,3,23,7,145,0.85,4.3
+48,Sunrise Healthcare,22.531152,88.378476,True,False,1,11,8,117,0.84,3.8
+49,Prime Medical Institute,22.649388,88.261173,False,False,4,18,14,159,0.73,4.0
+50,VitalCare Medical Center,22.579609,88.409347,False,False,5,12,15,152,0.7,4.0
