@@ -26,13 +26,15 @@ def get_connection():
 
 def get_request(request_id):
     conn = get_connection()
-    query = """
-    SELECT *
-    FROM my_schema.requests
-    WHERE request_id = %s
-    """
-    result = pd.read_sql(query, conn, params=(request_id,))
-    conn.close()
+    try:
+        query = """
+        SELECT *
+        FROM my_schema.requests
+        WHERE request_id = %s
+        """
+        result = pd.read_sql(query, conn, params=(request_id,))
+    finally:
+        conn.close()
 
     if result.empty:
         raise ValueError(f"No request found for request_id: {request_id}")
@@ -42,18 +44,11 @@ def get_request(request_id):
 
 def get_hospitals():
     conn = get_connection()
-    query = "SELECT * FROM my_schema.hospitals"
-    result = pd.read_sql(query, conn)
-    conn.close()
+    try:
+        result = pd.read_sql("SELECT * FROM my_schema.hospitals", conn)
+    finally:
+        conn.close()
     return result
-
-
-def filter_hospitals(hospitals, emergency):
-    if emergency == "cardiac":
-        hospitals = hospitals[hospitals["cardiac_center"] == True]
-    elif emergency == "trauma":
-        hospitals = hospitals[hospitals["trauma_center"] == True]
-    return hospitals
 
 
 def build_feature_matrix(hospitals, req):
@@ -67,7 +62,7 @@ def build_feature_matrix(hospitals, req):
         )
         availability = compute_availability(row)
         rating = compute_rating(row)
-        facility = compute_facility(row, emergency)
+        facility = compute_facility(row, emergency)  # 0 or 1 — varies now since no pre-filter
 
         features.append([distance, availability, rating, facility])
 
@@ -76,8 +71,7 @@ def build_feature_matrix(hospitals, req):
 
 def recommend(request_id):
     req = get_request(request_id)
-    hospitals = get_hospitals()
-    hospitals = filter_hospitals(hospitals, req["emergency_type"]).copy()
+    hospitals = get_hospitals()  # NO filtering — all hospitals included
 
     if hospitals.empty:
         return pd.DataFrame()
