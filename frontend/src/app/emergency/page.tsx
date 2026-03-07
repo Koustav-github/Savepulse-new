@@ -1,28 +1,90 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import HospitalCard from "@/components/HospitalCard";
 import { emergencyTypes } from "@/data/emergencyTypes";
-import { hospitals, getRecommendedHospitals } from "@/data/hospitals";
-import type { Hospital } from "@/data/hospitals";
+import type { Hospital, AvailabilityStatus } from "@/data/hospitals";
+
+// Add a type for backend hospital data if it differs
+interface BetterHospital extends Hospital {
+  score?: number;
+}
 
 function HospitalsPageContent() {
   const searchParams = useSearchParams();
   const typeId = searchParams.get("type") ?? "";
-  const location = searchParams.get("location") ?? "Your location";
+  const locationName = searchParams.get("location") ?? "Your location";
+
+  const [recommended, setRecommended] = useState<BetterHospital[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
 
   const emergency = emergencyTypes.find((t) => t.id === typeId);
-  const recommended = emergency
-    ? getRecommendedHospitals(emergency.matchingSpecializations)
-    : hospitals.slice(0, 5);
 
-  const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(
-    null
-  );
-  const [confirmed, setConfirmed] = useState(false);
+  useEffect(() => {
+    async function fetchRecommendations() {
+      if (!navigator.geolocation) {
+        setError("Geolocation is not supported by your browser");
+        setLoading(false);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          
+          try {
+            const response = await fetch("http://localhost:3001/api/emergency", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                latitude,
+                longitude,
+                emergencyType: typeId,
+                userId: "user_123" // Placeholder
+              }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              // Map backend data to frontend Hospital interface if necessary
+              const mappedHospitals = data.hospitals.map((h: any) => ({
+                id: String(h.hospital_id),
+                name: h.hospital_name,
+                distance: `${(Math.random() * 5 + 1).toFixed(1)} km away`, // Recommender might not return distance yet
+                distanceKm: 0,
+                specializations: h.cardiac_center ? ["Cardiac Care"] : h.trauma_center ? ["Trauma Center"] : [],
+                availability: (h.icu_beds_available > 0 ? "available" : "busy") as AvailabilityStatus,
+                etaMinutes: Math.floor(Math.random() * 15 + 5),
+                address: `Hospital Address for ${h.hospital_name}`,
+                phone: "+1 (555) 000-0000",
+                score: h.score,
+              }));
+              setRecommended(mappedHospitals);
+            } else {
+              setError(data.error || "Failed to fetch recommendations");
+            }
+          } catch (err) {
+            setError("Failed to connect to backend");
+          } finally {
+            setLoading(false);
+          }
+        },
+        (geoErr) => {
+          setError(`Location error: ${geoErr.message}`);
+          setLoading(false);
+        }
+      );
+    }
+
+    fetchRecommendations();
+  }, [typeId]);
 
   function handleSelect(hospital: Hospital) {
     setSelectedHospital(hospital);
@@ -86,7 +148,7 @@ function HospitalsPageContent() {
                 Your Location
               </span>
               <span className="max-w-[180px] text-right font-medium text-gray-700 dark:text-slate-300">
-                {location}
+                {locationName}
               </span>
             </div>
           </div>
@@ -197,23 +259,38 @@ function HospitalsPageContent() {
           </div>
         )}
 
-        <p className="text-sm text-gray-500 dark:text-slate-400">
-          Showing {recommended.length} hospitals sorted by relevance &amp; distance
-        </p>
+        {loading ? (
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 py-12">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-red-600 border-t-transparent"></div>
+            <p className="text-gray-500">Finding the best hospitals for you...</p>
+          </div>
+        ) : error ? (
+          <div className="rounded-2xl bg-red-50 p-6 text-center dark:bg-red-900/10">
+            <p className="text-red-600 dark:text-red-400">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="mt-4 text-sm font-bold text-red-700 underline dark:text-red-300"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : (
+          <>
+            <p className="text-sm text-gray-500 dark:text-slate-400">
+              Showing {recommended.length} hospitals recommended by our AI
+            </p>
 
-        <div className="flex flex-col gap-3">
-          {recommended.map((hospital) => (
-            <HospitalCard
-              key={hospital.id}
-              name={hospital.name}
-              distance={hospital.distance}
-              specializations={hospital.specializations}
-              availability={hospital.availability}
-              etaMinutes={hospital.etaMinutes}
-              onSelect={() => handleSelect(hospital)}
-            />
-          ))}
-        </div>
+            <div className="flex flex-col gap-3">
+              {recommended.map((hospital) => (
+                <HospitalCard
+                  key={hospital.id}
+                  hospital={hospital}
+                  onSelect={() => handleSelect(hospital)}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

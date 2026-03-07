@@ -1,4 +1,4 @@
-export type AvailabilityStatus = "available" | "busy" | "full";
+export type AvailabilityStatus = "available" | "busy" | "full" | "dispatching" | "idle" | "arriving" | "active" | "pending" | "confirmed" | "completed";
 
 export interface Hospital {
   id: string;

@@ -123,7 +123,7 @@ export default function DashboardPage() {
                                     key={h.id}
                                     hospital={h}
                                     selected={selectedHospitals.includes(h.id)}
-                                    onSelect={handleHospitalSelect}
+                                    onSelect={()=>handleHospitalSelect(h.id)}
                                     showDispatchButton={false}
                                 />
                             ))
