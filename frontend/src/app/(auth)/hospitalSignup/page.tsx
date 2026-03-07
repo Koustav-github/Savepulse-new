@@ -76,7 +76,7 @@ export default function HospitalSignup() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-950">
       <Header />
       <main className="mx-auto w-full max-w-md flex-1 px-4 pt-6 pb-24">
         {/* Hero */}
@@ -87,8 +87,8 @@ export default function HospitalSignup() {
         </section>
 
         {/* Signup Form */}
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-3xl bg-white p-6 shadow-lg dark:bg-slate-900">
-          
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4 rounded-3xl bg-slate-900 p-6 shadow-lg border border-slate-800">
+
           {/* Hospital Name */}
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-slate-300">Hospital Name</label>
@@ -150,10 +150,21 @@ export default function HospitalSignup() {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-4 w-full rounded-xl bg-red-600 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-red-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`mt-4 w-full rounded-xl bg-red-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-500 active:scale-95 ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
           >
-            {loading ? "Getting Location..." : "Register Hospital"}
+            {loading ? "Getting Location…" : "Register Hospital"}
           </button>
+
+          <p className="text-center text-sm text-slate-500">
+            Already registered?{" "}
+            <button
+              type="button"
+              onClick={() => router.push("/hospitalLogin")}
+              className="font-semibold text-red-500 hover:text-red-400 transition-colors"
+            >
+              Log In
+            </button>
+          </p>
         </form>
       </main>
       <BottomNav />

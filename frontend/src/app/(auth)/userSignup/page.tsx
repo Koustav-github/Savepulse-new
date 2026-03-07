@@ -8,6 +8,7 @@ import BottomNav from "@/components/BottomNav";
 export default function userSignup() {
   const router = useRouter();
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [form, setForm] = useState({
     userName: "",
     email: "",
@@ -24,37 +25,37 @@ export default function userSignup() {
     });
   }
 
- async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-  const id = crypto.randomUUID();
-  const res = await fetch("http://localhost:3001/user/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      id: id,
-      name: form.userName,
-      email: form.email,
-      phone: form.phone,
-      address: form.address,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      bloodGroup: form.bloodGroup,
-      emergencyContact: form.emergencyContact
-    })
-  });
+    const id = crypto.randomUUID();
+    const res = await fetch("http://localhost:3001/user/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: id,
+        name: form.userName,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        bloodGroup: form.bloodGroup,
+        emergencyContact: form.emergencyContact
+      })
+    });
 
-  const data = await res.json();
-  if (res.status === 201) {
-    redirect("/User");
-  } else {
-    console.error("Signup failed:", data);
+    const data = await res.json();
+    if (res.status === 201) {
+      redirect("/User");
+    } else {
+      console.error("Signup failed:", data);
+    }
   }
-}
 
-  
+
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-950">
       <Header />
 
       <main className="mx-auto w-full max-w-md flex-1 px-4 pt-6 pb-24">
@@ -75,8 +76,13 @@ export default function userSignup() {
         {/* Signup Form */}
         <form
           onSubmit={handleSubmit}
-          className="mt-6 space-y-4 rounded-3xl bg-white p-6 shadow-lg dark:bg-slate-900"
+          className="mt-6 space-y-4 rounded-3xl bg-slate-900 p-6 shadow-lg border border-slate-800"
         >
+          {errorMsg && (
+            <div className="rounded-xl bg-red-600/10 border border-red-600/30 px-4 py-3 text-sm text-red-400">
+              {errorMsg}
+            </div>
+          )}
 
           {/* Username */}
           <div>
@@ -171,10 +177,21 @@ export default function userSignup() {
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 w-full rounded-xl bg-red-600 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-red-700"
+            className="mt-4 w-full rounded-xl bg-red-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-500 active:scale-95"
           >
             Register User
           </button>
+
+          <p className="text-center text-sm text-slate-500">
+            Already registered?{" "}
+            <button
+              type="button"
+              onClick={() => router.push("/userLogin")}
+              className="font-semibold text-red-500 hover:text-red-400 transition-colors"
+            >
+              Log In
+            </button>
+          </p>
         </form>
       </main>
 
