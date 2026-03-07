@@ -51,6 +51,30 @@ const config: Record<
     bg: "bg-blue-100 dark:bg-blue-900/40",
     text: "text-blue-700 dark:text-blue-300",
   },
+  active: {
+    label: "Active",
+    dot: "bg-emerald-500",
+    bg: "bg-emerald-100 dark:bg-emerald-900/40",
+    text: "text-emerald-700 dark:text-emerald-300",
+  },
+  pending: {
+    label: "Pending",
+    dot: "bg-amber-500",
+    bg: "bg-amber-100 dark:bg-amber-900/40",
+    text: "text-amber-700 dark:text-amber-300",
+  },
+  confirmed: {
+    label: "Confirmed",
+    dot: "bg-blue-600",
+    bg: "bg-blue-100 dark:bg-blue-900/40",
+    text: "text-blue-700 dark:text-blue-300",
+  },
+  completed: {
+    label: "Completed",
+    dot: "bg-gray-500",
+    bg: "bg-gray-200 dark:bg-gray-700/40",
+    text: "text-gray-700 dark:text-gray-300",
+  },
 };
 
 export default function StatusBadge({ status, size = "md" }: StatusBadgeProps) {
