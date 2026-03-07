@@ -1,6 +1,6 @@
 import numpy as np
+import pandas as pd
 from math import radians, sin, cos, sqrt, atan2
-
 
 # Haversine distance in km
 def haversine(lat1, lon1, lat2, lon2):
@@ -43,10 +43,12 @@ def compute_availability(row):
 
 def compute_rating(row):
 
-    if row["hospital_rating"] is None:
+    rating = row["hospital_rating"]
+
+    if pd.isna(rating):
         return 0
 
-    return row["hospital_rating"] / 5
+    return rating / 5
 
 
 def compute_facility(row, emergency):
