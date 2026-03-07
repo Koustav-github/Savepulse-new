@@ -1,8 +1,11 @@
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
 
 dotenv.config();
+
+import emergencyRouter from "./routes/emergency";
+import hospitalsRouter from "./routes/hospitals";
 
 export const createServer = () => {
   const app = express();
@@ -14,7 +17,10 @@ export const createServer = () => {
   app.get("/health", (_req, res) => {
     res.json({ status: "ok" });
   });
-  console.log(process.env.DATABASE_URL);
+
+  // routes
+  app.use("/api/emergency", emergencyRouter);
+  app.use("/api/hospitals", hospitalsRouter);
 
   return app;
 };
